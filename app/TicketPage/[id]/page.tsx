@@ -1,8 +1,12 @@
+import TicketForm from "@/app/(components)/TicketForm";
+
 const TicketIDPage = ({ params }: { params: { id: string } }) => {
 
-  console.log(params)
+  // console.log(params)
 
-  return <div>TicketIDPage {params.id}</div>;
+  return (
+    <TicketForm />
+  );
 };
 
 export default TicketIDPage;
