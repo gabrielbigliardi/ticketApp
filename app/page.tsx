@@ -11,6 +11,7 @@ const Dashboard = () => {
         <TicketCard />
       </div>
       <Link href={"/TicketPage"}>Tickets</Link>
+      <Link className="ml-5" href={"/TicketPage/new"}>New</Link>
     </div>
   );
 };
