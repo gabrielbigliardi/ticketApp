@@ -3,29 +3,30 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { NextResponse } from "next/server";
 
-// type TicketData = {
-//     title: String,
-//     description: String,
-//     category: String,
-//     priority: Number,
-//     progress: Number,
-//     status: String,
-//     active: Boolean
-// }
-
 
 export async function POST(req: any) {
     console.log("RANDOM")
     try {
+        console.log(req)
         const body = await req.json()
+        console.log(body)
         const ticketData = body.formData
         await Ticket.create(ticketData)
         return NextResponse.json({ message: "Ticket Created" }, { status: 201 })
     } catch (err) {
         return NextResponse.json({ message: "Error", err }, { status: 500 })
     }
+}
 
 
+export async function GET() {
+    try {
+        const tickets = await Ticket.find()
+        // console.log(tickets)
+        return NextResponse.json({ message: tickets }, { status: 200 })
+    } catch (err) {
+        return NextResponse.json({ message: "Error", err }, { status: 500 })
+    }
 }
 
 
