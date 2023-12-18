@@ -20,7 +20,7 @@ export default function TicketForm() {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
 
-        const res = await fetch("/api/Tickets", {
+        const res = await fetch("/api/admin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -63,7 +63,7 @@ export default function TicketForm() {
         <div className="flex justify-center">
             <form
                 className="flex flex-col gap-3 w-1/2"
-                method="post"
+                method="POST"
                 onSubmit={handleSubmit}
             >
                 <h3>Create Your Ticket</h3>
