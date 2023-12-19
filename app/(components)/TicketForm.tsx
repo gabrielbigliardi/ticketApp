@@ -3,8 +3,11 @@
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
-export default function TicketForm() {
+export default function TicketForm({ ticket }: any) {
 
+    const EDITMODE = ticket._id === "new" ? false : true
+
+    console.log(EDITMODE)
     const router = useRouter()
 
     const handleChange = (e: { target: { value: any; name: any } }) => {
@@ -20,29 +23,38 @@ export default function TicketForm() {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
 
-        const res = await fetch("/api/admin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ formData }),
-        })
-        console.log(res)
+        if (EDITMODE) {
 
+            const res = await fetch(`/api/Tickets/${ticket._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ formData }),
+            })
 
+            if (!res.ok) {
+                throw new Error("Failed to update Ticket.")
+            }
 
-        if (res.ok) {
-            // Lógica de sucesso
-            console.log('Formulário enviado com sucesso!');
         } else {
-            // Lógica de erro
-            console.error('Erro ao enviar formulário:', res.statusText);
+
+            const res = await fetch("/api/Tickets", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ formData }),
+            })
+
+            if (!res.ok) {
+                throw new Error("Failed to create Ticket.")
+            }
+
         }
 
-        // if (!res.ok) {
-        //     throw new Error("Failed to create ticket.")
 
-        // }
+
 
         router.refresh()
         router.push('/')
@@ -57,6 +69,15 @@ export default function TicketForm() {
         category: "Hardware Problem"
     }
 
+    if (EDITMODE) {
+        startingTicketData["title"] = ticket.title
+        startingTicketData["description"] = ticket.description
+        startingTicketData["priority"] = ticket.priority
+        startingTicketData["progress"] = ticket.progress
+        startingTicketData["status"] = ticket.status
+        startingTicketData["category"] = ticket.category
+    }
+
     const [formData, setFormData] = useState(startingTicketData)
 
     return (
@@ -66,7 +87,7 @@ export default function TicketForm() {
                 method="POST"
                 onSubmit={handleSubmit}
             >
-                <h3>Create Your Ticket</h3>
+                <h3>{EDITMODE ? "Update Your Ticket" : "Create Your Ticket"}</h3>
                 <label>Title</label>
                 <input
                     id="title"
@@ -171,7 +192,7 @@ export default function TicketForm() {
                     <option value={"done"}>Done</option>
                 </select>
 
-                <input type="submit" className="btn" value={"Create Ticket"}></input>
+                <input type="submit" className="btn" value={EDITMODE ? "Update Ticket" : "Create Ticket"}></input>
             </form>
         </div>
     )

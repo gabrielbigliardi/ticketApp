@@ -2,7 +2,7 @@ import { faFire } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PriorityDisplay({ priority }: any) {
-  console.log(priority)
+  // console.log(priority)
   return (
     <div className="flex justify-start align-baseline">
       <FontAwesomeIcon icon={faFire} className={`pr-1 ${priority > 0 ? "text-red-400" : "text-slate-400"}`} />
