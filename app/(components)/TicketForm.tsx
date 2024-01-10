@@ -53,9 +53,6 @@ export default function TicketForm({ ticket }: any) {
 
         }
 
-
-
-
         router.refresh()
         router.push('/')
     }
